@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <link rel="shortcut icon" href="{% static "icon.ico" %}" type="image/x-icon">
+    <title>{% block title %}{% endblock title %}</title>
+
+    <link href="https://cdn.bootcdn.net/ajax/libs/datatables/1.10.0/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.9.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/admin-lte/3.0.5/css/adminlte.min.css" rel="stylesheet">
+
+</head>
+<body>
+    {% block body %}{% endblock body %}
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/datatables/1.10.0/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/popper.js/1.9.9/popper.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/admin-lte/3.0.5/js/adminlte.min.js"></script>
+    {% block script %}
+    {% endblock script %}
+</body>
+</html>
