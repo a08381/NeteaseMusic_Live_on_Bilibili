@@ -1,6 +1,17 @@
-from bilibili_api import Verify
+from bilibili_api import Verify, live
 
-class Danmu:
+import app
 
-    def __init__(self, sessdata: str, csrf: str):
-        self.verify = Verify(sessdata=sessdata, csrf=csrf)
+verify = Verify(sessdata=app.config["login"]["SESSDATA"],
+                csrf=app.config["login"]["bili_jct"])
+danmaku = live.LiveDanmaku(app.config["roomid"], verify=verify)
+
+
+def on_live(self):
+    danmaku.connect()  # this will block thread
+    pass
+
+
+@danmaku.on("DANMU_MSG")
+def on_receive(data: dict, *args, **kwargs):
+    pass

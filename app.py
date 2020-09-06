@@ -4,7 +4,8 @@
 import json
 from pathlib import Path
 
-from quart import Quart, request, render_template
+from quart import Quart, request, render_template, websocket
+
 
 BASE_DIR = Path(__file__).resolve().parent
 config_file = BASE_DIR / "config.json"
@@ -20,6 +21,14 @@ async def index():
     if request.cookies.get("secret") == config.get("secret"):
         return render_template("")
     return render_template("block.html")
+
+
+@app.websocket("/ws")
+async def ws():
+    while True:
+        data = await websocket.receive()
+        await websocket.send(f"echo {data}")
+
 
 if __name__ == "__main__":
     app.run()
