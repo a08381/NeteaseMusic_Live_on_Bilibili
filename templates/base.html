@@ -5,12 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <link rel="shortcut icon" href="{% static "icon.png" %}" type="image/png">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='icon.png') }}" type="image/png">
     <title>{% block title %}{% endblock title %}</title>
 
     <link href="https://cdn.bootcdn.net/ajax/libs/datatables/1.10.0/css/jquery.dataTables.min.css" rel="stylesheet">
     <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.9.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.bootcdn.net/ajax/libs/admin-lte/3.0.5/css/adminlte.min.css" rel="stylesheet">
+
+    {% block head %}
+    {% endblock head %}
 
 </head>
 <body>

@@ -1,26 +1,32 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import json
+from quart import Quart, redirect, render_template, request, url_for, websocket
 from pathlib import Path
 
-from quart import Quart, request, render_template, websocket
+settings_file = Path(__file__).resolve().parent / "live/settings.py"
+if not settings_file.exists():
+    sample_file = settings_file.parent / "settings_sample.py"
+    settings_file.write_bytes(sample_file.read_bytes())
+
+from live import settings
 
 
-BASE_DIR = Path(__file__).resolve().parent
-config_file = BASE_DIR / "config.json"
-if not config_file.exists():
-    sample_file = BASE_DIR / "config_sample.json"
-    config_file.write_bytes(sample_file.read_bytes())
-config = json.load(config_file)
 app = Quart(__name__)
 
 
 @app.route("/")
 async def index():
-    if request.cookies.get("secret") == config.get("secret"):
-        return render_template("")
-    return render_template("block.html")
+    if request.cookies and request.cookies.get("secret", "") == settings.config.get("secret", ""):
+        return await render_template("index.html")
+    return await render_template("block.html")
+
+
+@app.route("/submit", methods=['POST'])
+async def submit():
+    resp = redirect(url_for("index"))
+    resp.set_cookie(request.form.get("secret", ""))
+    return resp
 
 
 @app.websocket("/ws")
