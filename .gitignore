@@ -133,3 +133,4 @@ dmypy.json
 
 config.json
 settings.py
+cache/
