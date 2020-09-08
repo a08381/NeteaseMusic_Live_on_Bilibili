@@ -9,9 +9,6 @@ Hello World
         body {
             background: url({{ url_for('static', filename='background.jpg') }}) no-repeat;
             background-size: cover;
-            filter: alpha(opacity=50);
-            -moz-opacity: 0.5;
-            opacity: 0.5;
         }
         .container {
             width: 100%;
@@ -38,9 +35,11 @@ Hello World
         .info {
             display: block;
             align-self: center;
-            width: 400px;
-            height: 200px;
+            width: 480px;
+            height: 260px;
             background: rgba(0, 0, 0, 0.4);
+            border: 1px solid #ced4da;
+            border-radius: .5rem;
         }
         .info:before {
             content: "";
@@ -52,8 +51,12 @@ Hello World
             display: inline-block;
             vertical-align: middle;
             margin-left: 10%;
+            margin-top: 10%;
             width: 80%;
             height: 50%;
+            filter: alpha(opacity=60);
+            -moz-opacity: 0.6;
+            opacity: 0.6;
         }
     </style>
 {% endblock head %}
@@ -66,7 +69,7 @@ Hello World
                 <div class="info">
                     <form action="/submit" method="post" role="form">
                         <div class="input-group input-group-md">
-                            <input type="password" class="form-control" id="secret" name="secret" placeholder="SECRET"/>
+                            <input type="password" class="form-control" id="secret" name="secret" placeholder="SECRET" style="background-color: transparent;"/>
                         </div>
                         <br/>
                         <button type="submit" class="btn btn-warning btn-block">SUBMIT</button>
