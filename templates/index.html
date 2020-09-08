@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}
+直播管理
+{% endblock title %}
+
+{% block head %}
+    <style type="text/css">
+        body {
+            background: url({{ url_for('static', filename='background.jpg') }}) no-repeat;
+            background-size: cover;
+            filter: alpha(opacity=50);
+            -moz-opacity: 0.5;
+            opacity: 0.5;
+        }
+    </style>
+{% endblock head %}

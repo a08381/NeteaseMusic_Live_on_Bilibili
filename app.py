@@ -14,10 +14,12 @@ from live import settings
 
 app = Quart(__name__)
 
+app.jinja_env.auto_reload = True
+
 
 @app.route("/")
 async def index():
-    if request.cookies and request.cookies.get("secret", "") == settings.config.get("secret", ""):
+    if request.cookies and request.cookies.get("secret", "") == settings.config.get("secret", "SECRET"):
         return await render_template("index.html")
     return await render_template("block.html")
 
@@ -25,7 +27,8 @@ async def index():
 @app.route("/submit", methods=['POST'])
 async def submit():
     resp = redirect(url_for("index"))
-    resp.set_cookie(request.form.get("secret", ""))
+    form = await request.form
+    resp.set_cookie("secret", form.get("secret", ""))
     return resp
 
 
