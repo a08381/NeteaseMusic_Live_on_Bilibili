@@ -63,7 +63,7 @@ Hello World
 
 
 {% block body %}
-    <div class="container">
+    <div class="container" style="visibility: hidden;">
         <div class="wrapper">
             <div class="sub_wrapper">
                 <div class="info">
@@ -79,3 +79,16 @@ Hello World
         </div>
     </div>
 {% endblock body %}
+
+{% block script %}
+    <script>
+        $(function() {
+            $url = "{{ url_for('static', filename='background.jpg') }}";
+            $img = $("<img />");
+            $img.attr("src", $url);
+            $img.bind("load", function() {
+                $(".container").removeAttr("style");
+            });
+        });
+    </script>
+{% endblock script %}
