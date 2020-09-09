@@ -1,14 +1,14 @@
 from bilibili_api import Danmaku, Verify, live
 
-from live import settings
+from live.settings import settings
 import asyncio
 
 
 class Room:
 
     def __init__(self):
-        self.verify = Verify(sessdata=settings.config["login"]["SESSDATA"], csrf=settings.config["login"]["bili_jct"])
-        self.danmaku = live.LiveDanmaku(settings.config["roomid"], verify=self.verify)
+        self.verify = settings.verify
+        self.danmaku = live.LiveDanmaku(settings.room_id, verify=self.verify)
         self.connected = False
 
     async def connect(self):
