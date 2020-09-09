@@ -16,13 +16,15 @@
     {% endblock head %}
 
 </head>
+{% block body_class %}
 <body>
+{% endblock body_class %}
     {% block body %}{% endblock body %}
 
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/datatables/1.10.0/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.bootcdn.net/ajax/libs/popper.js/1.9.9/popper.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/popper.js/1.16.1/popper.min.js" type="module"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/avalon.js/2.2.7/avalon.modern.min.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/admin-lte/3.0.5/js/adminlte.min.js"></script>
     {% block script %}
