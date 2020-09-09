@@ -1,6 +1,6 @@
-from bilibili_api import Verify, live
+from bilibili_api import Danmaku, Verify, live
 
-import settings
+from live import settings
 import asyncio
 
 
@@ -9,26 +9,29 @@ class Room:
     def __init__(self):
         self.verify = Verify(sessdata=settings.config["login"]["SESSDATA"], csrf=settings.config["login"]["bili_jct"])
         self.danmaku = live.LiveDanmaku(settings.config["roomid"], verify=self.verify)
-        self.send = live.send_danmaku
         self.connected = False
 
-    def connect(self):
+    async def connect(self):
         self.connected = True
         asyncio.create_task(self.__room_connect())
 
-    def disconnect(self):
+    async def disconnect(self):
         self.connected = False
         self.danmaku.disconnect()
 
-    def reconnect(self):
-        self.disconnect()
-        asyncio.sleep(1)
-        self.connect()
+    async def reconnect(self):
+        await self.disconnect()
+        await asyncio.sleep(1)
+        await self.connect()
+
+    async def send(self, text: str):
+        danmaku = Danmaku(text=text)
+        live.send_danmaku(self.danmaku.room_id, danmaku, verify=Verify)
 
     async def __room_connect(self):
         while self.connected:
             await self.danmaku.connect()
             
     @danmaku.on("DANMU_MSG")
-    def on_receive(data: dict, *args, **kwargs):
+    def on_receive(self, data: dict, *args, **kwargs):
         pass
