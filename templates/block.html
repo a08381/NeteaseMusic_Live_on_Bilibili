@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-Hello World
+    Hello World
 {% endblock title %}
 
 {% block head %}
@@ -10,10 +10,12 @@ Hello World
             background: url("{{ url_for('static', filename='background.jpg') }}") no-repeat;
             background-size: cover;
         }
+
         .container {
             width: 100%;
             height: 100%;
         }
+
         .wrapper {
             position: fixed;
             top: 0;
@@ -22,6 +24,7 @@ Hello World
             right: 0;
             overflow: auto;
         }
+
         .sub_wrapper {
             display: flex;
             justify-content: center;
@@ -32,6 +35,7 @@ Hello World
             background-color: initial;
             position: relative;
         }
+
         .info {
             display: block;
             align-self: center;
@@ -41,12 +45,14 @@ Hello World
             border: 1px solid #ced4da;
             border-radius: .5rem;
         }
+
         .info:before {
             content: "";
             display: inline-block;
             vertical-align: middle;
             height: 100%;
         }
+
         .info form {
             display: inline-block;
             vertical-align: middle;
@@ -69,7 +75,9 @@ Hello World
                 <div class="info">
                     <form action="/submit" method="post" role="form">
                         <div class="input-group input-group-md">
-                            <label for="secret"></label><input type="password" class="form-control" id="secret" name="secret" placeholder="SECRET" style="background-color: transparent;"/>
+                            <label for="secret"></label><input type="password" class="form-control" id="secret"
+                                                               name="secret" placeholder="SECRET"
+                                                               style="background-color: transparent;"/>
                         </div>
                         <br/>
                         <button type="submit" class="btn btn-warning btn-block">SUBMIT</button>
@@ -82,11 +90,11 @@ Hello World
 
 {% block script %}
     <script>
-        $(function() {
-            $url = "{{ url_for('static', filename='background.jpg') }}";
-            $img = $("<img />");
+        $(function () {
+            let $url = "{{ url_for('static', filename='background.jpg') }}";
+            let $img = $("<img />");
             $img.attr("src", $url);
-            $img.bind("load", function() {
+            $img.bind("load", function () {
                 $(".container").removeAttr("style");
             });
         });
