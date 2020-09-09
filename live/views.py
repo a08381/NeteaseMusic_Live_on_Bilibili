@@ -1,4 +1,5 @@
 from quart import Blueprint, redirect, render_template, request, url_for, websocket
+
 from live import settings
 
 bluepoint = Blueprint('views', __name__)

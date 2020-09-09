@@ -1,6 +1,6 @@
 # NeteaseMusic_Live_on_Bilibili
 
-![Python](https://img.shields.io/badge/Python-3.6+-blue)
+![Python](https://img.shields.io/badge/Python-3.7+-blue)
 [![LICENSE](https://img.shields.io/github/license/a08381/NeteaseMusic_Live_on_Bilibili)](https://github.com/a08381/NeteaseMusic_Live_on_Bilibili/blob/master/LICENSE)
 [![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/a08381/NeteaseMusic_Live_on_Bilibili)](https://www.codefactor.io/repository/github/a08381/neteasemusic_live_on_bilibili)
 [![GitHub stars](https://img.shields.io/github/stars/a08381/NeteaseMusic_Live_on_Bilibili)](https://github.com/a08381/NeteaseMusic_Live_on_Bilibili/stargazers)

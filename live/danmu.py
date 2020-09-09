@@ -1,10 +1,13 @@
+import asyncio
+
 from bilibili_api import Danmaku, Verify, live
 
 from live.settings import settings
-import asyncio
 
 
 class Room:
+
+    danmaku = live.LiveDanmaku(33156)
 
     def __init__(self):
         self.verify = settings.verify
@@ -26,12 +29,12 @@ class Room:
 
     async def send(self, text: str):
         danmaku = Danmaku(text=text)
-        live.send_danmaku(self.danmaku.room_id, danmaku, verify=Verify)
+        live.send_danmaku(self.danmaku.room_id, danmaku, verify=self.verify)
 
     async def __room_connect(self):
         while self.connected:
             await self.danmaku.connect()
-            
+
     @danmaku.on("DANMU_MSG")
     def on_receive(self, data: dict, *args, **kwargs):
         pass

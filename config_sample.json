@@ -1,6 +1,6 @@
 {
     "secret": "SECRET",
-    "roomid": 0,
+    "room_id": 0,
     "login": {
         "SESSDATA": "",
         "bili_jct": ""
