@@ -4,7 +4,7 @@ import asyncio
 
 from quart import Quart
 
-from live.danmu import Room
+from live.room import Room
 from live.views import bluepoint
 
 Application = Quart(__name__)
@@ -15,7 +15,6 @@ Application.register_blueprint(bluepoint)
 if __name__ == "__main__":
 
     room = Room()
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(room.connect())
+    room.connect()
 
     Application.run()

@@ -20,7 +20,7 @@ class Settings:
     def verify(self) -> Verify:
         login = self.config.get("login")
         if login:
-            return Verify(sessdata=login["SESSDATA"], csrf=login["bili_jct"])
+            return Verify(sessdata=login["SESSDATA"] if login["SESSDATA"].strip() else None, csrf=login["bili_jct"] if login["bili_jct"].strip() else None)
         return Verify()
 
     @property
