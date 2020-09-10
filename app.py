@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import asyncio
+import time
 
 from quart import Quart
 
@@ -13,8 +13,11 @@ Application.jinja_env.auto_reload = True
 Application.register_blueprint(bluepoint)
 
 if __name__ == "__main__":
-
     room = Room()
     room.connect()
+
+    time.sleep(10)
+
+    room.disconnect()
 
     Application.run()

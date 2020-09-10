@@ -1,8 +1,7 @@
 import asyncio
-import logging
-
-from bilibili_api import Danmaku, Verify, live
 from threading import Thread
+
+from bilibili_api import Danmaku, live
 
 from live.settings import settings
 
@@ -12,9 +11,10 @@ class Room:
     def __init__(self):
         self.connected = False
         self.verify = settings.verify
-        self.danmaku = live.LiveDanmaku(settings.room_id, verify=self.verify)
+        self.danmaku = live.LiveDanmaku(settings.room_id, verify=self.verify, debug=True)
         self.danmaku.add_event_handler("DANMU_MSG", self.on_receive)
         self.loop = asyncio.new_event_loop()
+        self.threading = None
 
     def connect(self):
         if not self.connected:
@@ -27,6 +27,7 @@ class Room:
             self.connected = False
             self.danmaku.disconnect()
             self.threading.join()
+            self.threading = None
 
     def reconnect(self):
         self.disconnect()
@@ -34,7 +35,7 @@ class Room:
 
     def send(self, text: str):
         danmaku = Danmaku(text=text)
-        live.send_danmaku(self.danmaku.room_id, danmaku, verify=self.verify)
+        live.send_danmaku(self.danmaku.room_real_id, danmaku, verify=self.verify)
 
     async def on_receive(self, event: dict, *args, **kwargs):
         data = event["data"]
@@ -43,13 +44,14 @@ class Room:
         message = info[1]
         self.danmaku.logger.info(f"{username}: {message}")
 
+
 class Connect(Thread):
 
     def __init__(self, room: Room):
         super().__init__()
         self.room = room
         self.daemon = True
-    
+
     def run(self):
         asyncio.set_event_loop(self.room.loop)
         while self.room.connected:
