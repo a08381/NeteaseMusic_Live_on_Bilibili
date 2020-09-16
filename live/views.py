@@ -1,5 +1,9 @@
+import asyncio
+
+from asyncio import Queue
 from quart import Blueprint, redirect, render_template, request, url_for, websocket
 
+from live import customers
 from live.settings import settings
 
 bluepoint = Blueprint('views', __name__)
@@ -22,6 +26,22 @@ async def submit():
 
 @bluepoint.websocket("/ws")
 async def ws():
+    queue = customers.new()
+    try:
+        producer = asyncio.create_task(send(queue))
+        consumer = asyncio.create_task(recv())
+        await asyncio.gather(producer, consumer)
+    except asyncio.CancelledError:
+        customers.remove(queue)
+
+
+async def recv():
     while True:
         data = await websocket.receive()
-        await websocket.send(f"echo {data}")
+        # TODO: WebSocket Check
+
+
+async def send(queue: Queue):
+    while True:
+        data = await queue.get()
+        await websocket.send(data)
