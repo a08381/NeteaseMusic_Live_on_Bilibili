@@ -2,6 +2,8 @@ import asyncio
 
 from asyncio import Queue
 from quart import Blueprint, redirect, render_template, request, url_for, websocket
+from quart.wrappers import Websocket
+from typing import Any, Optional
 
 from live import customers
 from live.settings import settings
@@ -35,13 +37,22 @@ async def ws():
         customers.remove(queue)
 
 
-async def recv():
+async def recv() -> None:
     while True:
         data = await websocket.receive()
         # TODO: WebSocket Check
 
 
-async def send(queue: Queue):
+async def send(queue: Queue) -> None:
     while True:
         data = await queue.get()
-        await websocket.send(data)
+        await send(websocket, data)
+
+
+async def send(ws: Websocket, data: Optional[Any]) -> None:
+    if type(data) == str:
+        await ws.send(data)
+    elif type(data) == dict:
+        await ws.send_json(data)
+    else:
+        await ws.send_json(data.__dict__)
