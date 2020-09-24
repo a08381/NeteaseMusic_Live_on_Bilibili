@@ -15,6 +15,6 @@ class User:
             return self.uid == value.uid
         elif type(value) == int:
             return self.uid == value
-    
+
     def __str__(self):
         return self.get_name()

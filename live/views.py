@@ -1,9 +1,11 @@
 import asyncio
-
 from asyncio import Queue
-from quart import Blueprint, redirect, render_template, request, url_for, websocket
-from quart.wrappers import Websocket
 from typing import Any, Optional
+
+from quart import redirect, render_template, url_for
+from quart.app import Blueprint
+from quart.globals import request, websocket, session
+from quart.wrappers import Websocket
 
 from live import customers
 from live.settings import settings
@@ -13,7 +15,7 @@ bluepoint = Blueprint('views', __name__)
 
 @bluepoint.route("/")
 async def index():
-    if request.cookies and request.cookies.get("secret", "") == settings.secret:
+    if session.get("secret", "") == settings.secret:
         return await render_template("index.html")
     return await render_template("block.html")
 
@@ -22,7 +24,7 @@ async def index():
 async def submit():
     resp = redirect(url_for("views.index"))
     form = await request.form
-    resp.set_cookie("secret", form.get("secret", ""))
+    session["secret"] = form.get("secret", "")
     return resp
 
 
@@ -46,13 +48,14 @@ async def recv() -> None:
 async def send(queue: Queue) -> None:
     while True:
         data = await queue.get()
-        await send(websocket, data)
+        await __send(websocket, data)
 
 
-async def send(ws: Websocket, data: Optional[Any]) -> None:
-    if type(data) == str:
-        await ws.send(data)
-    elif type(data) == dict:
-        await ws.send_json(data)
-    else:
-        await ws.send_json(data.__dict__)
+async def __send(wss: Websocket, data: Optional[Any]) -> None:
+    if data:
+        if type(data) == str:
+            await wss.send(data)
+        elif type(data) == dict:
+            await wss.send_json(data)
+        else:
+            await wss.send_json(data.__dict__)

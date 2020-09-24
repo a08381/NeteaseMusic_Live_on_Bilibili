@@ -1,8 +1,9 @@
 {
-    "secret": "SECRET",
-    "room_id": 0,
-    "login": {
-        "SESSDATA": "",
-        "bili_jct": ""
-    }
+  "secret_key": "",
+  "token": "SECRET",
+  "room_id": 0,
+  "login": {
+    "SESSDATA": "",
+    "bili_jct": ""
+  }
 }
