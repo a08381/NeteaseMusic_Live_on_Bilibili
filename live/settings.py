@@ -13,14 +13,16 @@ class Settings:
     def __init__(self):
         self.config_file = BASE_DIR / "config.json"
         self.config = self.__load__()
+        login = self.config.get("login")
+        if login:
+            self.__verify = Verify(sessdata=login["SESSDATA"] if login["SESSDATA"].strip() else None,
+                                   csrf=login["bili_jct"] if login["bili_jct"].strip() else None)
+        else:
+            self.__verify = None
 
     @property
     def verify(self) -> Verify:
-        login = self.config.get("login")
-        if login:
-            return Verify(sessdata=login["SESSDATA"] if login["SESSDATA"].strip() else None,
-                          csrf=login["bili_jct"] if login["bili_jct"].strip() else None)
-        return Verify()
+        return self.__verify
 
     @property
     def room_id(self) -> int:

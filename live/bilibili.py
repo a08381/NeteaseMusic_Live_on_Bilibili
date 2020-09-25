@@ -5,8 +5,10 @@ class User:
 
     def __init__(self, uid: int):
         self.uid = uid
+        self.reward = 0
 
-    def get_name(self) -> str:
+    @property
+    def name(self) -> str:
         info = user.get_user_info(self.uid)
         return info["name"]
 
@@ -15,6 +17,12 @@ class User:
             return self.uid == value.uid
         elif type(value) == int:
             return self.uid == value
+
+    def __iadd__(self, value):
+        self.reward += value
+
+    def __isub__(self, value):
+        self.reward -= value
 
     def __str__(self):
         return self.get_name()
