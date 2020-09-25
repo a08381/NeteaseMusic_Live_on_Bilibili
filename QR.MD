@@ -60,13 +60,13 @@ curl 'http://passport.bilibili.com/qrcode/getLoginUrl'
 
 ```json
 {
-	"code": 0,
-	"status": true,
-	"ts": 1583314311,
-	"data": {
-		"url": "https://passport.bilibili.com/qrcode/h5/login?oauthKey=c3bd5286a2b40a822f5f60e9bf3f602e",
-		"oauthKey": "c3bd5286a2b40a822f5f60e9bf3f602e"
-	}
+    "code": 0,
+    "status": true,
+    "ts": 1583314311,
+    "data": {
+        "url": "https://passport.bilibili.com/qrcode/h5/login?oauthKey=c3bd5286a2b40a822f5f60e9bf3f602e",
+        "oauthKey": "c3bd5286a2b40a822f5f60e9bf3f602e"
+    }
 }
 ```
 
@@ -155,12 +155,12 @@ curl "http://passport.bilibili.com/qrcode/getLoginInfo"\
 
 ```json
 {
-	"code": 0,
-	"status": true,
-	"ts": 1583315474,
-	"data": {
-		"url": "https://passport.biligame.com/crossDomain?DedeUserID=***&DedeUserID__ckMd5=***&Expires=***&SESSDATA=***&bili_jct=***&gourl=http%3A%2F%2Fwww.bilibili.com"
-	}
+    "code": 0,
+    "status": true,
+    "ts": 1583315474,
+    "data": {
+        "url": "https://passport.biligame.com/crossDomain?DedeUserID=***&DedeUserID__ckMd5=***&Expires=***&SESSDATA=***&bili_jct=***&gourl=http%3A%2F%2Fwww.bilibili.com"
+    }
 }
 ```
 
