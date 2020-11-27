@@ -1,9 +1,10 @@
 import asyncio
+from typing import Any, Optional
 
 __ws_queue = []
 
 
-def broadcast(data: str):
+def broadcast(data: Optional[Any]):
     for queue in __ws_queue:
         queue.put_nowait(data)
 

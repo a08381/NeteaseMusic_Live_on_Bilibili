@@ -1,5 +1,6 @@
 import asyncio
 from asyncio import Queue
+import json
 from typing import Any, Optional
 
 from quart import redirect, render_template, url_for
@@ -32,8 +33,8 @@ async def submit():
 async def ws():
     queue = customers.new()
     try:
-        producer = asyncio.create_task(send(queue))
-        consumer = asyncio.create_task(recv())
+        producer = asyncio.ensure_future(send(queue))
+        consumer = asyncio.ensure_future(recv())
         await asyncio.gather(producer, consumer)
     except asyncio.CancelledError:
         customers.remove(queue)
@@ -42,6 +43,8 @@ async def ws():
 async def recv() -> None:
     while True:
         data = await websocket.receive()
+        root = json.loads(str(data))
+        root["type"]
         # TODO: WebSocket Check
 
 
