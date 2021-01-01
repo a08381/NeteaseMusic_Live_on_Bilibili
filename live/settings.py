@@ -24,6 +24,19 @@ class Settings:
     def verify(self) -> Verify:
         return self.__verify
 
+    @verify.setter
+    def verify(self, value: Verify) -> None:
+        self.__verify = value
+        self.config["login"]["SESSDATA"] = value.sessdata
+        self.config["login"]["bili_jct"] = value.csrf
+        self.save()
+
+    @verify.deleter
+    def verify(self):
+        self.__verify = None
+        self.config["login"]["SESSDATA"] = ""
+        self.config["login"]["bili_jct"] = ""
+
     @property
     def room_id(self) -> int:
         return self.config.get("room_id", 0)
