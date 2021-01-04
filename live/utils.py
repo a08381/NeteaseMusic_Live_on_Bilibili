@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import Any, Tuple
 
 import qrcode
 import requests
@@ -16,10 +17,26 @@ class Status(Enum):
     SUCCESS = 0,
     UNKNOWN_ERROR = 1
 
+    @classmethod
+    def get(cls, data: int):
+        if data == -1:
+            return Status.KEY_ERROR
+        elif data == -2:
+            return Status.KEY_TIMEOUT
+        elif data == -4:
+            return Status.NOT_SCAN
+        elif data == -5:
+            return Status.NOT_SUBMIT
+        elif data == 0:
+            return Status.SUCCESS
+        else:
+            return Status.UNKNOWN_ERROR
+
 
 def make_qrcode(url: str, img: Image = None) -> Image:
     qr = qrcode.QRCode(version=5, error_correction=qrcode.constants.ERROR_CORRECT_H, box_size=8, border=4)
     qr.add_data(url)
+    qr.print_ascii(invert=True)
     qr.make()
 
     image = qr.make_image()
@@ -46,7 +63,7 @@ def make_qrcode(url: str, img: Image = None) -> Image:
     return image
 
 
-def get_login_qrcode() -> (Image, str):
+def get_login_qrcode() -> Tuple[Any, str]:
     image = None
     key = ""
     raw = requests.get("http://passport.bilibili.com/qrcode/getLoginUrl")
@@ -66,12 +83,11 @@ def check_login_info(key: str) -> Status:
     raw = requests.post("http://passport.bilibili.com/qrcode/getLoginInfo", data=data)
     if raw.status_code == 200:
         root = raw.json()
-        if root["code"] == 0:
-            if root["status"]:
-                verify = Verify(sessdata=raw.cookies["SESSDATA"], csrf=raw.cookies["bili_jct"])
-                settings.verify = verify
-                return Status.SUCCESS
-            else:
-                code = root["data"] if type(root["data"]) == "number" else 1
-                return Status(code)
+        if root["status"]:
+            verify = Verify(sessdata=raw.cookies["SESSDATA"], csrf=raw.cookies["bili_jct"])
+            settings.verify = verify
+            return Status.SUCCESS
+        else:
+            code = root["data"]
+            return Status.get(code)
     return Status.UNKNOWN_ERROR
