@@ -14,9 +14,8 @@ class Settings:
         self.config_file = BASE_DIR / "config.json"
         self.config = self.__load__()
         login = self.config.get("login")
-        if login:
-            self.__verify = Verify(sessdata=login["SESSDATA"] if login["SESSDATA"].strip() else None,
-                                   csrf=login["bili_jct"] if login["bili_jct"].strip() else None)
+        if login and login["SESSDATA"].strip() and login["bili_jct"].strip():
+            self.__verify = Verify(sessdata=login["SESSDATA"], csrf=login["bili_jct"])
         else:
             self.__verify = None
 
@@ -36,14 +35,35 @@ class Settings:
         self.__verify = None
         self.config["login"]["SESSDATA"] = ""
         self.config["login"]["bili_jct"] = ""
+        self.save()
 
     @property
     def room_id(self) -> int:
         return self.config.get("room_id", 0)
 
+    @room_id.setter
+    def room_id(self, value: int) -> None:
+        self.config["room_id"] = value
+        self.save()
+
+    @room_id.deleter
+    def room_id(self) -> None:
+        self.config["room_id"] = 0
+        self.save()
+
     @property
     def token(self) -> str:
         return self.config.get("token", "SECRET")
+
+    @token.setter
+    def token(self, value: str) -> None:
+        self.config["token"] = value
+        self.save()
+
+    @token.deleter
+    def token(self) -> None:
+        self.config["token"] = ""
+        self.save()
 
     @property
     def secret_key(self) -> str:

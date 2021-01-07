@@ -4,7 +4,7 @@ from typing import Any, Tuple
 import qrcode
 import requests
 from PIL import Image
-from bilibili_api import Verify
+from bilibili_api import live, user, Verify
 
 from live.settings import settings
 
@@ -91,3 +91,15 @@ def check_login_info(key: str) -> Status:
             code = root["data"]
             return Status.get(code)
     return Status.UNKNOWN_ERROR
+
+
+def get_room_id() -> int:
+    try:
+        uid = user.get_self_info(verify=settings.verify)["mid"]
+        user_info = user.get_user_info(uid=uid, verify=settings.verify)
+        live_room = user_info["live_room"]
+        if live_room["roomStatus"] == 1:
+            return live_room["roomid"]
+    except Exception:
+        pass
+    return 0

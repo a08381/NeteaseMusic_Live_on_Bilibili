@@ -1,7 +1,4 @@
 import asyncio
-import time
-from asyncio.events import AbstractEventLoop
-from threading import Thread
 
 from bilibili_api import Danmaku, live
 
